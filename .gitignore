@@ -1,0 +1,10 @@
+resources/public/js/test
+
+/.cpcache
+
+/target
+/node_modules
+/*.log
+.shadow-cljs/
+
+.nrepl-port
