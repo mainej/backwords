@@ -2,6 +2,7 @@
   (:require [reitit.frontend :as rf]
             [backwords.html.db :as db]
             [backwords.html.pages.random :as pages.random]
+            [backwords.html.pages.after :as pages.after]
             [reitit.frontend.easy :as rfe]))
 
 (def ^:private routes
@@ -9,7 +10,10 @@
    ["/" {:name :route/home
          :view pages.random/page}]
    ["/random" {:name :route/random
-               :view pages.random/page}]])
+               :view pages.random/page}]
+   ["/after/:n" {:name :route/after
+                 :view   pages.after/page}]
+   ])
 
 (def ^:private router
   (rf/router routes))

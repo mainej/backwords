@@ -10,6 +10,10 @@
 
 /* https://every-layout.dev/layouts/stack/ */
 
-.stack > * + * {
+.stack-6 > * + * {
     @apply mt-6;
+}
+
+.stack-row-1 > * + * {
+    @apply ml-1;
 }
