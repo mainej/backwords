@@ -1,5 +1,11 @@
-{:deps    true
- :builds  {:browser-test {:target   :browser-test
-                          :test-dir "resources/public/js/test"
-                          :devtools {:http-port 8021
-                                     :http-root "resources/public/js/test"}}}}
+{:deps     true
+ :dev-http {8081 "target/"}
+ :builds   {:app          {:output-dir "target/"
+                           :asset-path "."
+                           :target     :browser
+                           :modules    {:main {:init-fn backwords.html.live/init}}
+                           :devtools   {:after-load backwords.html.live/mount-root}}
+            :browser-test {:target   :browser-test
+                           :test-dir "target/js/test"
+                           :devtools {:http-port 8021
+                                      :http-root "target/js/test"}}}}
