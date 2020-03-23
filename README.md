@@ -14,7 +14,7 @@ Then
 
 ```bash
 yarn run html     # optional, only needs to be run once
-yarn run tailwind # optional, only needs to be run when styles change
+yarn run css      # optional, only needs to be run when styles change
 yarn run watch-js
 ```
 

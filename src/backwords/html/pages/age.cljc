@@ -20,7 +20,7 @@
     (chrono-unit/between units birthday today)))
 
 (defn select-units [{:keys [on-change] :as opts}]
-  [:select.bg-inherit.text-shadow-inherit
+  [:select.form-select.bg-inherit.text-shadow-inherit.border-transparent.pl-0.pr-7.py-0.-mr-4
    (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]
