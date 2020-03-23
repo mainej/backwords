@@ -6,6 +6,6 @@
 (defn after [n]
   (let [digi-n (diginum/from-int n)]
     [:div
-     [:p.font-bold.text-4xl [util/format-digi-n (palindrome/next digi-n)]]
+     [:p [util/palindrome-span (palindrome/next digi-n)]]
      [:p.my-4 "is the next palindrome after "
-      [:span.font-semibold.text-2xl [util/format-digi-n digi-n]]]]))
+      [util/digi-span digi-n]]]))

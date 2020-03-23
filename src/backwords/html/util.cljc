@@ -20,3 +20,8 @@
                 (into [:span] s)))
          (into [:span.stack-row-1]))))
 
+(defn palindrome-span [digi-n]
+  [:span.font-bold.text-4xl [format-digi-n digi-n]])
+
+(defn digi-span [digi-n]
+  [:span.font-bold.text-2xl [format-digi-n digi-n]])

@@ -25,9 +25,21 @@
    [:option {:value "months" :selected (= units "months")} "months"]
    [:option {:value "years" :selected (= units "years")} "years"]])
 
+(defn you-are [name]
+  (if name
+    (str name ", you're")
+    "You're"))
+
+(defn you-will-be [name]
+  (if name
+    (str name ", you'll be")
+    "You'll be"))
+
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
-        date-str                       (str year "-" month "-" day)]
+
+        date-str    (str year "-" month "-" day)
+        visit-units #(util/visit [:route/age (assoc path :units %) query])]
     (if-let [date (safe-date-parse date-str)]
       (let [today               (local-date/now)
             age                 (age-in-units date today units)
@@ -38,26 +50,22 @@
         [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
          (if (zero? countdown)
            [:div.text-blue-500
-            [:p (if-let [name (:name query)]
-                  (str name ", you're")
-                  "You're")]
+            [:p (you-are (:name query))]
             [:p
-             [:span.font-bold.text-4xl [util/format-digi-n palindrome-digi-age]]
+             [util/palindrome-span palindrome-digi-age]
              " "
-             [select-units units {:on-change #(util/visit [:route/age (assoc path :units %) query])}]]
+             [select-units units {:on-change visit-units}]]
             [:p "old!"]]
            (let [digi-countdown (diginum/from-int countdown)]
              [:div
-              [:p (if-let [name (:name query)]
-                    (str name ", you'll be")
-                    "You'll be")]
+              [:p (you-will-be (:name query))]
               [:p
-               [:span.font-bold.text-4xl [util/format-digi-n palindrome-digi-age]]
+               [util/palindrome-span palindrome-digi-age]
                " "
-               [select-units units {:on-change #(util/visit [:route/age (assoc path :units %) query])}]]
+               [select-units units {:on-change visit-units}]]
               [:p "old in"]
               [:p
-               [:span.font-bold.text-2xl [util/format-digi-n digi-countdown]]
+               [util/digi-span digi-countdown]
                " "
                units]]))])
       [:div
