@@ -14,7 +14,7 @@
 
 (defn main-view []
   (let [route (db/active-route)]
-    [:div.min-w-screen.font-serif
+    [:div.min-w-screen.font-mono
      [:main.min-h-screen
       [:div.max-w-7xl.mx-auto
        (when-let [view (:view (:data route))]

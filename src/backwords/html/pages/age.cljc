@@ -45,7 +45,7 @@
         date     (safe-date-parse date-str)]
     (if-not date
       [:div.py-6
-       [:div.font-mono.p-8.max-w-xs.m-auto.text-right
+       [:div.p-8.max-w-xs.m-auto.text-right
         [:p "Sorry, don't understand " date-str " as a date."]]]
       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
             today               (db/today)
@@ -60,7 +60,7 @@
                               :class-names {:enter-active is-palindrome-styles
                                             :enter-done   is-palindrome-styles}}
          [:div.transition-all.duration-500.py-6.min-h-screen
-          [:div.font-mono.p-8.max-w-xs.m-auto.text-right
+          [:div.p-8.max-w-xs.m-auto.text-right
            (if is-palindrome?
              [:div
               [:p (you-are (:name query))]

@@ -17,7 +17,7 @@
     (fn []
       (let [n @!n]
         [:div.py-6
-         [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+         [:div.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
           [:div
            [palindrome/after n]
            [:button.mt-8.px-4.py-2.border.border-gray-900
