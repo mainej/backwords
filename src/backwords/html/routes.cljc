@@ -27,4 +27,4 @@
 
 (defn ^:dev/after-load initialize
   []
-  (rfe/start! router db/save-route {:use-fragment true}))
+  (rfe/start! router db/save-route {:use-fragment false}))
