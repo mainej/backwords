@@ -1,3 +1,7 @@
+# Backwords
+
+Tools for finding palindromic numbers and a static web site for viewing them.
+
 ## Hack
 
 First, load dependencies into build server:
