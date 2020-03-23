@@ -1,6 +1,7 @@
 {:paths   ["src"]
  :deps    {metosin/reitit-frontend {:mvn/version "0.3.10"}
-           reagent                 {:mvn/version "0.10.0"}}
+           reagent                 {:mvn/version "0.10.0"}
+           cljc.java-time          {:mvn/version "0.1.8"}}
  :aliases {:shadow {:extra-deps {thheller/shadow-cljs {:mvn/version "RELEASE"}}}
            :test   {:extra-paths ["test"]
                     :extra-deps  {org.clojure/test.check {:mvn/version "RELEASE"}
