@@ -2,6 +2,7 @@
   (:require [backwords.diginum :as diginum]
             [backwords.palindrome :as palindrome]
             [backwords.html.util :as util]
+            [backwords.html.db :as db]
             [cljc.java-time.local-date :as local-date]
             [cljc.java-time.temporal.chrono-unit :as chrono-unit]))
 
@@ -38,16 +39,18 @@
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
 
-        date-str    (str year "-" month "-" day)
-        visit-units #(util/visit [:route/age (assoc path :units %) query])]
-    (if-let [date (safe-date-parse date-str)]
-      (let [today               (local-date/now)
-            age                 (age-in-units date today units)
-            digi-age            (diginum/from-int age)
-            palindrome-digi-age (palindrome/next digi-age)
-            palindrome-age      (diginum/to-int palindrome-digi-age)
-            countdown           (- palindrome-age age)]
-        [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+        date-str (str year "-" month "-" day)
+        date     (safe-date-parse date-str)]
+    [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+     (if-not date
+       [:p "Sorry, don't understand " date-str " as a date."]
+       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
+             today               (db/today)
+             age                 (age-in-units date today units)
+             digi-age            (diginum/from-int age)
+             palindrome-digi-age (palindrome/next digi-age)
+             palindrome-age      (diginum/to-int palindrome-digi-age)
+             countdown           (- palindrome-age age)]
          (if (zero? countdown)
            [:div.text-blue-500
             [:p (you-are (:name query))]
@@ -67,6 +70,4 @@
               [:p
                [util/digi-span digi-countdown]
                " "
-               units]]))])
-      [:div
-       [:p "Sorry, don't understand " date-str " as a date."]])))
+               units]]))))]))
