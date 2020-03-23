@@ -1,6 +1,6 @@
 (ns backwords.html.pages.random
   (:require [reagent.core :as r]
-            [reitit.frontend.easy :as rfe]
+            [backwords.html.util :as util]
             [backwords.html.components.palindrome :as palindrome]))
 
 (defn expt [n e]
@@ -23,7 +23,7 @@
            {:on-click #(reset! !n (small-rand))}
            "Give me another!"]]
          [:a.mt-20.flex.flex-row-reverse
-          {:href       (rfe/href :route/after {:n n})
+          {:href       (util/href :route/after {:n n})
            :aria-label "Permalink"}
           [:svg.h-6.w-6.fill-none.stroke-2.stroke-current
            {:viewbox "0 0 24 24" :xmlns "http://www.w3.org/2000/svg"}
