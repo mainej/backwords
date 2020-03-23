@@ -1,59 +1,36 @@
 ## Hack
 
-### HTML
+First, load dependencies into build server:
 
 ```bash
-mkdir -p target
-cp assets/index.html target/
+yarn run js-server
 ```
 
-### JS
+Then
 
 ```bash
-npx shadow-cljs watch app
+yarn run html     # optional, only needs to be run once
+yarn run tailwind # optional, only needs to be run when styles change
+yarn run watch-js
 ```
 
-### CSS
-
-```bash
-mkdir -p target
-NODE_ENV=development npx postcss -c postcss.config.js -o target/styles.css assets/css/styles.css
-```
+Then, open http://localhost:8081
 
 ### Test
 
-Load dependencies into build server:
+Run test server:
 
 ```bash
-npx shadow-cljs -A:shadow:test server
-```
-
-Run tests in browser:
-
-```bash
-npx shadow-cljs watch browser-test
+yarn run test-js
 ```
 
 Then, open http://localhost:8021
 
 ## Deploy
 
-### HTML
-
 ```bash
-mkdir -p target
-cp assets/index.html target/
-```
-
-### JS
-
-```bash
-npx shadow-cljs compile app
-```
-
-### CSS
-
-```bash
-mkdir -p target
-NODE_ENV=production npx postcss -c postcss.config.js -o target/styles.css assets/css/styles.css
+yarn --prod run clean
+yarn --prod run html
+yarn --prod run css
+yarn --prod run compile-js
 ```
