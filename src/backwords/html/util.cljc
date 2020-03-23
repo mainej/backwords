@@ -1,5 +1,7 @@
 (ns backwords.html.util
-  (:require [reitit.frontend.easy :as rfe]))
+  (:require [reagent.core :as reagent]
+            [reitit.frontend.easy :as rfe]
+            #?(:cljs ["react-transition-group" :refer [CSSTransition]])))
 
 (def href rfe/href)
 
@@ -25,3 +27,7 @@
 
 (defn digi-span [digi-n]
   [:span.font-bold.text-2xl [format-digi-n digi-n]])
+
+(def css-transition
+  #?(:clj :div
+     :cljs (reagent/adapt-react-class CSSTransition)))

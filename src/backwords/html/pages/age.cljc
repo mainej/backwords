@@ -20,11 +20,11 @@
     (chrono-unit/between units birthday today)))
 
 (defn select-units [units {:keys [on-change]}]
-  [:select
-   {:on-change #(on-change (.. % -target -value))}
-   [:option {:value "days" :selected (= units "days")} "days"]
-   [:option {:value "months" :selected (= units "months")} "months"]
-   [:option {:value "years" :selected (= units "years")} "years"]])
+  [:select {:value     units
+            :on-change #(on-change (.. % -target -value))}
+   [:option {:value "days"} "days"]
+   [:option {:value "months"} "months"]
+   [:option {:value "years"} "years"]])
 
 (defn you-are [name]
   (if name
@@ -48,26 +48,31 @@
              today               (db/today)
              age                 (age-in-units date today units)
              digi-age            (diginum/from-int age)
-             palindrome-digi-age (palindrome/next digi-age)
-             palindrome-age      (diginum/to-int palindrome-digi-age)
-             countdown           (- palindrome-age age)]
-         (if (zero? countdown)
-           [:div.text-blue-500
-            [:p (you-are (:name query))]
-            [:p
-             [util/palindrome-span palindrome-digi-age]
-             " "
-             [select-units units {:on-change visit-units}]]
-            [:p "old!"]]
-           (let [digi-countdown (diginum/from-int countdown)]
+             digi-palindrome-age (palindrome/next digi-age)
+             palindrome-age      (diginum/to-int digi-palindrome-age)
+             countdown           (- palindrome-age age)
+             is-palindrome?      (zero? countdown)]
+         [util/css-transition {:in          is-palindrome?
+                               :timeout     500
+                               :class-names {:enter-active  "text-blue-500 text-shadow"
+                                             :enter-done    "text-blue-500 text-shadow"}}
+          [:div.transition-all.duration-500.text-black
+           (if is-palindrome?
+             [:div
+              [:p (you-are (:name query))]
+              [:p
+               [util/palindrome-span digi-palindrome-age]
+               " "
+               [select-units units {:on-change visit-units}]]
+              [:p "old!"]]
              [:div
               [:p (you-will-be (:name query))]
               [:p
-               [util/palindrome-span palindrome-digi-age]
+               [util/palindrome-span digi-palindrome-age]
                " "
                [select-units units {:on-change visit-units}]]
               [:p "old in"]
               [:p
-               [util/digi-span digi-countdown]
+               [util/digi-span (diginum/from-int countdown)]
                " "
-               units]]))))]))
+               units]])]]))]))
