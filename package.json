@@ -6,7 +6,7 @@
     "author": "",
     "license": "MIT",
     "scripts": {
-        "clean":      "rm -r target && mkdir target",
+        "clean":      "rm -rf target && mkdir target",
         "html":       "cp assets/index.html target/ && cp assets/netlify_redirects target/_redirects",
         "css":        "postcss -c postcss.config.js -o target/styles.css assets/css/styles.css",
         "js-server":  "shadow-cljs -A:test server",
