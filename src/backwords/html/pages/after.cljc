@@ -3,5 +3,6 @@
             [backwords.html.components.palindrome :as palindrome]))
 
 (defn page [params]
-  [:div.font-mono.p-8.max-w-xs.m-auto.text-right
-   [palindrome/after (util/parse-int (:n (:path params)))]])
+  [:div.py-6
+   [:div.font-mono.p-8.max-w-xs.m-auto.text-right
+    [palindrome/after (util/parse-int (:n (:path params)))]]])

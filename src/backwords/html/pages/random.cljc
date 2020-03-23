@@ -16,16 +16,17 @@
   (let [!n (r/atom (small-rand))]
     (fn []
       (let [n @!n]
-        [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
-         [:div
-          [palindrome/after n]
-          [:button.mt-8.px-4.py-2.border.border-gray-900
-           {:on-click #(reset! !n (small-rand))}
-           "Give me another!"]]
-         [:a.mt-20.flex.flex-row-reverse
-          {:href       (util/href :route/after {:n n})
-           :aria-label "Permalink"}
-          [:svg.h-6.w-6.fill-none.stroke-2.stroke-current
-           {:viewbox "0 0 24 24" :xmlns "http://www.w3.org/2000/svg"}
-           [:title "Permalink"]
-           [:path {:d lock-path, :stroke-linecap "round", :stroke-linejoin "round"}]]]]))))
+        [:div.py-6
+         [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+          [:div
+           [palindrome/after n]
+           [:button.mt-8.px-4.py-2.border.border-gray-900
+            {:on-click #(reset! !n (small-rand))}
+            "Give me another!"]]
+          [:a.mt-20.flex.flex-row-reverse
+           {:href       (util/href :route/after {:n n})
+            :aria-label "Permalink"}
+           [:svg.h-6.w-6.fill-none.stroke-2.stroke-current
+            {:viewbox "0 0 24 24" :xmlns "http://www.w3.org/2000/svg"}
+            [:title "Permalink"]
+            [:path {:d lock-path, :stroke-linecap "round", :stroke-linejoin "round"}]]]]]))))

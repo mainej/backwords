@@ -21,3 +21,11 @@
 .text-shadow {
     text-shadow: 0px 0px 1px;
 }
+
+.text-shadow-inherit {
+    text-shadow: inherit;
+}
+
+.bg-inherit {
+    background-color: inherit;
+}

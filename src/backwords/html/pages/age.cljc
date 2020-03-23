@@ -19,9 +19,9 @@
                 "years"  chrono-unit/years)]
     (chrono-unit/between units birthday today)))
 
-(defn select-units [units {:keys [on-change]}]
-  [:select {:value     units
-            :on-change #(on-change (.. % -target -value))}
+(defn select-units [{:keys [on-change] :as opts}]
+  [:select.bg-inherit.text-shadow-inherit
+   (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]
    [:option {:value "years"} "years"]])
@@ -36,43 +36,47 @@
     (str name ", you'll be")
     "You'll be"))
 
+(def is-palindrome-styles "text-white bg-blue-500 text-shadow")
+
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
 
         date-str (str year "-" month "-" day)
         date     (safe-date-parse date-str)]
-    [:div.font-mono.p-8.max-w-xs.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
-     (if-not date
-       [:p "Sorry, don't understand " date-str " as a date."]
-       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
-             today               (db/today)
-             age                 (age-in-units date today units)
-             digi-age            (diginum/from-int age)
-             digi-palindrome-age (palindrome/next digi-age)
-             palindrome-age      (diginum/to-int digi-palindrome-age)
-             countdown           (- palindrome-age age)
-             is-palindrome?      (zero? countdown)]
-         [util/css-transition {:in          is-palindrome?
-                               :timeout     500
-                               :class-names {:enter-active  "text-blue-500 text-shadow"
-                                             :enter-done    "text-blue-500 text-shadow"}}
-          [:div.transition-all.duration-500.text-black
+    (if-not date
+      [:div.py-6
+       [:div.font-mono.p-8.max-w-xs.m-auto.text-right
+        [:p "Sorry, don't understand " date-str " as a date."]]]
+      (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
+            today               (db/today)
+            age                 (age-in-units date today units)
+            digi-age            (diginum/from-int age)
+            digi-palindrome-age (palindrome/next digi-age)
+            palindrome-age      (diginum/to-int digi-palindrome-age)
+            countdown           (- palindrome-age age)
+            is-palindrome?      (zero? countdown)]
+        [util/css-transition {:in          is-palindrome?
+                              :timeout     500
+                              :class-names {:enter-active is-palindrome-styles
+                                            :enter-done   is-palindrome-styles}}
+         [:div.transition-all.duration-500.py-6.min-h-screen
+          [:div.font-mono.p-8.max-w-xs.m-auto.text-right
            (if is-palindrome?
              [:div
               [:p (you-are (:name query))]
               [:p
                [util/palindrome-span digi-palindrome-age]
                " "
-               [select-units units {:on-change visit-units}]]
+               [select-units {:value units :on-change visit-units}]]
               [:p "old!"]]
              [:div
               [:p (you-will-be (:name query))]
               [:p
                [util/palindrome-span digi-palindrome-age]
                " "
-               [select-units units {:on-change visit-units}]]
+               [select-units {:value units :on-change visit-units}]]
               [:p "old in"]
               [:p
                [util/digi-span (diginum/from-int countdown)]
                " "
-               units]])]]))]))
+               units]])]]]))))

@@ -16,7 +16,7 @@
   (let [route (db/active-route)]
     [:div.min-w-screen.font-serif
      [:main.min-h-screen
-      [:div.max-w-7xl.mx-auto.py-6.sm:px-6.lg:px-8
+      [:div.max-w-7xl.mx-auto
        (when-let [view (:view (:data route))]
          [view (:parameters route)])]]]))
 
