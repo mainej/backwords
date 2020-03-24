@@ -14,11 +14,9 @@
 
 (defn main-view []
   (let [route (db/active-route)]
-    [:div.min-w-screen.font-mono
-     [:main.min-h-screen
-      [:div.mx-auto
-       (when-let [view (:view (:data route))]
-         [view (:parameters route)])]]]))
+    [:main.min-h-screen.mx-auto
+     (when-let [view (:view (:data route))]
+       [view (:parameters route)])]))
 
 (defn ^:export mount-root []
   (reagent.dom/render [main-view]
