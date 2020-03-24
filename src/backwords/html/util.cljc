@@ -1,5 +1,6 @@
 (ns backwords.html.util
   (:require [reagent.core :as reagent]
+            [backwords.diginum :as diginum]
             [reitit.frontend.easy :as rfe]
             #?(:cljs ["react-transition-group" :refer [CSSTransition]])))
 
@@ -23,10 +24,14 @@
          (into [:span.stack-row-1]))))
 
 (defn palindrome-span [digi-n]
-  [:span.font-bold.text-4xl [format-digi-n digi-n]])
+  [:a.font-bold.text-4xl
+   {:href (href :route/after {:n (diginum/to-int digi-n)})}
+   [format-digi-n digi-n]])
 
 (defn digi-span [digi-n]
-  [:span.font-bold.text-2xl [format-digi-n digi-n]])
+  [:a.font-bold.text-2xl
+   {:href (href :route/after {:n (diginum/to-int digi-n)})}
+   [format-digi-n digi-n]])
 
 (def css-transition
   #?(:clj :div
