@@ -3,6 +3,13 @@
             [backwords.html.util :as util]
             [backwords.html.components.palindrome :as palindrome]))
 
+(defn- expt [n e]
+  #?(:clj (Math/pow n e)
+     :cljs (js/Math.pow n e)))
+
+(defn- small-rand []
+  (+ 10 (rand-int (expt 10 (inc (rand-int 7))))))
+
 (def svg-opts
   {:viewBox "0 0 24 24"
    :xmlns   "http://www.w3.org/2000/svg"})
@@ -12,27 +19,29 @@
    :stroke-linecap  "round"
    :stroke-linejoin "round"})
 
-(defn expt [n e]
-  #?(:clj (Math/pow n e)
-     :cljs (js/Math.pow n e)))
+(defn- permalink [n]
+  [:a.mt-20
+   {:href       (util/href :route/after {:n n})
+    :aria-label "Permalink"}
+   [:svg.h-4.w-4.fill-none.stroke-2.stroke-current.inline svg-opts
+    [:title "Permalink"]
+    [:path path-opts-lock]]])
 
-(defn small-rand []
-  (+ 10 (rand-int (expt 10 (inc (rand-int 7))))))
+(defn page* [{:keys [get-n change-n]}]
+  (let [n (get-n)]
+    [:div.py-6
+     [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+      [:div
+       [palindrome/after n]
+       [:button.mt-8.px-4.py-2.border.border-gray-900
+        {:on-click change-n}
+        "Give me another!"]]
+      [permalink n]]]))
+
+(defn local-state []
+  (let [!n (r/atom (small-rand))]
+    {:get-n    #(deref !n)
+     :change-n #(reset! !n (small-rand))}))
 
 (defn page [_params]
-  (let [!n (r/atom (small-rand))]
-    (fn []
-      (let [n @!n]
-        [:div.py-6
-         [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
-          [:div
-           [palindrome/after n]
-           [:button.mt-8.px-4.py-2.border.border-gray-900
-            {:on-click #(reset! !n (small-rand))}
-            "Give me another!"]]
-          [:a.mt-20
-           {:href       (util/href :route/after {:n n})
-            :aria-label "Permalink"}
-           [:svg.h-4.w-4.fill-none.stroke-2.stroke-current.inline svg-opts
-            [:title "Permalink"]
-            [:path path-opts-lock]]]]]))))
+  [page* (local-state)])
