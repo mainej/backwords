@@ -20,7 +20,7 @@
     (chrono-unit/between units birthday today)))
 
 (defn select-units [{:keys [on-change] :as opts}]
-  [:select.form-select.bg-inherit.text-shadow-inherit.border-transparent.pl-0.pr-7.py-0.-mr-4
+  [:select.form-select.bg-inherit.text-shadow-inherit.border-transparent.pl-0.pr-7.py-0.-mr-2
    (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]
@@ -38,6 +38,11 @@
 
 (def is-palindrome-styles "text-white bg-blue-500 text-shadow")
 
+(defn random-link []
+  [:a.mt-20.focus:underline.text-sm
+   {:href (util/href :route/random)}
+   "Random"])
+
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
 
@@ -45,8 +50,9 @@
         date     (safe-date-parse date-str)]
     (if-not date
       [:div.py-6
-       [:div.p-8.max-w-xs.m-auto.text-right
-        [:p "Sorry, don't understand " date-str " as a date."]]]
+       [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+        [:p "Sorry, don't understand " date-str " as a date."]
+        [random-link]]]
       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
             today               (db/today)
             age                 (age-in-units date today units)
@@ -60,23 +66,25 @@
                               :class-names {:enter-active is-palindrome-styles
                                             :enter-done   is-palindrome-styles}}
          [:div.transition-all.duration-500.py-6.min-h-screen
-          [:div.p-8.max-w-xs.m-auto.text-right
+          [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.h-full.leading-tight
            (if is-palindrome?
              [:div
               [:p (you-are (:name query))]
               [:p
                [util/palindrome-span digi-palindrome-age]
                " "
-               [select-units {:value units :on-change visit-units}]]
-              [:p "old!"]]
+               [select-units {:value units :on-change visit-units}]
+               " old!"]]
              [:div
               [:p (you-will-be (:name query))]
               [:p
                [util/palindrome-span digi-palindrome-age]
                " "
-               [select-units {:value units :on-change visit-units}]]
-              [:p "old in"]
+               [select-units {:value units :on-change visit-units}]
+               " old"]
               [:p
+               "in "
                [util/digi-span (diginum/from-int countdown)]
                " "
-               units]])]]]))))
+               units]])
+           [random-link]]]]))))
