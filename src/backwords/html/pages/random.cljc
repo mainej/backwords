@@ -20,7 +20,7 @@
    :stroke-linejoin "round"})
 
 (defn- permalink [n]
-  [:a.mt-20
+  [:a.block.mt-20
    {:href       (util/href :route/after {:n n})
     :aria-label "Permalink"}
    [:svg.h-4.w-4.fill-none.stroke-2.stroke-current.inline svg-opts
@@ -30,7 +30,7 @@
 (defn page* [{:keys [get-n change-n]}]
   (let [n (get-n)]
     [:div.py-6
-     [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+     [:div.p-8.max-w-sm.m-auto.text-right
       [:div
        [palindrome/after n]
        [:button.mt-8.px-4.py-2.border.border-gray-900

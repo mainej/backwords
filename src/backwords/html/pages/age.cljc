@@ -6,11 +6,25 @@
             [cljc.java-time.local-date :as local-date]
             [cljc.java-time.temporal.chrono-unit :as chrono-unit]))
 
+(def transition-classes
+  (let [palindrome     "text-white bg-blue-500"
+        not-palindrome "text-black bg-transparent"]
+    {:appear      palindrome
+     :appear-done palindrome
+
+     :enter        "text-gray-300"
+     :enter-active (str "transition " palindrome)
+     :enter-done   palindrome
+
+     :exit        "text-gray-700"
+     :exit-active (str "transition " not-palindrome)
+     :exit-done   not-palindrome}))
+
 (defn safe-date-parse [date-str]
   (try
     (local-date/parse date-str)
     (catch #?(:clj Exception :cljs :default) e
-        nil)))
+      nil)))
 
 (defn age-in-units [birthday today units]
   (let [units (case units
@@ -36,12 +50,12 @@
     (str name ", you'll be")
     "You'll be"))
 
-(def is-palindrome-styles "text-white bg-blue-500 text-shadow")
-
 (defn random-link []
-  [:a.mt-20.focus:underline.text-sm
+  [:a.block.mt-20.focus:underline.text-sm
    {:href (util/href :route/random)}
    "Random"])
+
+(def article :article.p-8.max-w-sm.m-auto.text-right.leading-tight)
 
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
@@ -49,8 +63,8 @@
         date-str (str year "-" month "-" day)
         date     (safe-date-parse date-str)]
     (if-not date
-      [:div.py-6
-       [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.min-h-screen
+      [:div.py-6.min-h-screen
+       [article
         [:p "Sorry, don't understand " date-str " as a date."]
         [random-link]]]
       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
@@ -63,28 +77,29 @@
             is-palindrome?      (zero? countdown)]
         [util/css-transition {:in          is-palindrome?
                               :timeout     500
-                              :class-names {:enter-active is-palindrome-styles
-                                            :enter-done   is-palindrome-styles}}
-         [:div.transition-all.duration-500.py-6.min-h-screen
-          [:div.p-8.max-w-sm.m-auto.text-right.flex.flex-col.justify-between.h-full.leading-tight
-           (if is-palindrome?
-             [:div
-              [:p (you-are (:name query))]
-              [:p
-               [util/palindrome-span digi-palindrome-age]
-               " "
-               [select-units {:value units :on-change visit-units}]
-               " old!"]]
-             [:div
-              [:p (you-will-be (:name query))]
-              [:p
-               [util/palindrome-span digi-palindrome-age]
-               " "
-               [select-units {:value units :on-change visit-units}]
-               " old"]
-              [:p
-               "in "
-               [util/digi-span (diginum/from-int countdown)]
-               " "
-               units]])
-           [random-link]]]]))))
+                              :appear      true
+                              :class-names transition-classes}
+         [:div.duration-500
+          [:div.py-6.min-h-screen
+           [article
+            (if is-palindrome?
+              [:div
+               [:p (you-are (:name query))]
+               [:p
+                [util/palindrome-span digi-palindrome-age]
+                " "
+                [select-units {:value units :on-change visit-units}]
+                " old!"]]
+              [:div
+               [:p (you-will-be (:name query))]
+               [:p
+                [util/palindrome-span digi-palindrome-age]
+                " "
+                [select-units {:value units :on-change visit-units}]
+                " old"]
+               [:p
+                "in "
+                [util/digi-span (diginum/from-int countdown)]
+                " "
+                units]])
+            [random-link]]]]]))))
