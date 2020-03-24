@@ -1,6 +1,7 @@
 (ns backwords.html.pages.random
   (:require [reagent.core :as r]
             [backwords.html.util :as util]
+            [backwords.html.transition :as transition]
             [backwords.html.components.palindrome :as palindrome]))
 
 (defn- expt [n e]
@@ -28,15 +29,18 @@
     [:path path-opts-lock]]])
 
 (defn page* [{:keys [get-n change-n]}]
-  (let [n (get-n)]
-    [:div.py-6
-     [:div.p-8.max-w-sm.m-auto.text-right
-      [:div
-       [palindrome/after n]
-       [:button.mt-8.px-4.py-2.border.border-gray-900
-        {:on-click change-n}
-        "Give me another!"]]
-      [permalink n]]]))
+  (let [n (get-n)
+
+        {:keys [is-palindrome?] :as after-state} (palindrome/after-state n)]
+    [transition/palindrome {:in is-palindrome?}
+     [:div.py-6.min-h-screen
+      [:div.p-8.max-w-sm.m-auto.text-right
+       [palindrome/after after-state]
+       [:button.mt-8.px-4.py-2.border
+        {:on-click change-n
+         :class    (if is-palindrome? :border-white :border-gray-900)}
+        "Give me another!"]
+       [permalink n]]]]))
 
 (defn local-state []
   (let [!n (r/atom (small-rand))]

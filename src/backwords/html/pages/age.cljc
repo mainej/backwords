@@ -3,22 +3,9 @@
             [backwords.palindrome :as palindrome]
             [backwords.html.util :as util]
             [backwords.html.db :as db]
+            [backwords.html.transition :as transition]
             [cljc.java-time.local-date :as local-date]
             [cljc.java-time.temporal.chrono-unit :as chrono-unit]))
-
-(def transition-classes
-  (let [palindrome     "text-white bg-blue-500"
-        not-palindrome "text-black bg-transparent"]
-    {:appear      palindrome
-     :appear-done palindrome
-
-     :enter        "text-gray-300"
-     :enter-active (str "transition " palindrome)
-     :enter-done   palindrome
-
-     :exit        "text-gray-700"
-     :exit-active (str "transition " not-palindrome)
-     :exit-done   not-palindrome}))
 
 (defn safe-date-parse [date-str]
   (try
@@ -75,31 +62,27 @@
             palindrome-age      (diginum/to-int digi-palindrome-age)
             countdown           (- palindrome-age age)
             is-palindrome?      (zero? countdown)]
-        [util/css-transition {:in          is-palindrome?
-                              :timeout     500
-                              :appear      true
-                              :class-names transition-classes}
-         [:div.duration-500
-          [:div.py-6.min-h-screen
-           [article
-            (if is-palindrome?
-              [:div
-               [:p (you-are (:name query))]
-               [:p
-                [util/palindrome-span digi-palindrome-age]
-                " "
-                [select-units {:value units :on-change visit-units}]
-                " old!"]]
-              [:div
-               [:p (you-will-be (:name query))]
-               [:p
-                [util/palindrome-span digi-palindrome-age]
-                " "
-                [select-units {:value units :on-change visit-units}]
-                " old"]
-               [:p
-                "in "
-                [util/digi-span (diginum/from-int countdown)]
-                " "
-                units]])
-            [random-link]]]]]))))
+        [transition/palindrome {:in is-palindrome?}
+         [:div.py-6.min-h-screen
+          [article
+           (if is-palindrome?
+             [:div
+              [:p (you-are (:name query))]
+              [:p
+               [util/palindrome-span digi-palindrome-age]
+               " "
+               [select-units {:value units :on-change visit-units}]
+               " old!"]]
+             [:div
+              [:p (you-will-be (:name query))]
+              [:p
+               [util/palindrome-span digi-palindrome-age]
+               " "
+               [select-units {:value units :on-change visit-units}]
+               " old"]
+              [:p
+               "in "
+               [util/digi-span (diginum/from-int countdown)]
+               " "
+               units]])
+           [random-link]]]]))))
