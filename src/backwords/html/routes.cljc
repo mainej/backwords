@@ -16,7 +16,7 @@
      :view pages.random/page}]
    ["/after/:n"
     {:name :route/after
-     :view pages.after/page}]
+     :view pages.after/page-from-route}]
    ["/age/in/:units/since/:year/:month/:day"
     {:name :route/age
      :view pages.age/page}]
