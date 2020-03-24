@@ -1,8 +1,8 @@
 (ns backwords.html.live
   (:require [backwords.html.routes :as routes]
             [backwords.html.db :as db]
-            [reagent.dom]
-            ))
+            [backwords.html.wrappers.page :as page]
+            [reagent.dom]))
 
 (def debug?
   ^boolean goog.DEBUG)
@@ -13,10 +13,7 @@
     (println "dev mode")))
 
 (defn main-view []
-  (let [route (db/active-route)]
-    [:main.min-h-screen.mx-auto
-     (when-let [view (:view (:data route))]
-       [view (:parameters route)])]))
+  [page/main (db/active-route)])
 
 (defn ^:export mount-root []
   (reagent.dom/render [main-view]

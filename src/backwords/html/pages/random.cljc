@@ -1,6 +1,7 @@
 (ns backwords.html.pages.random
   (:require [reagent.core :as r]
             [backwords.html.util :as util]
+            [backwords.html.wrappers.page :as page]
             [backwords.html.transition :as transition]
             [backwords.html.components.palindrome :as palindrome]))
 
@@ -33,8 +34,8 @@
 
         {:keys [is-palindrome?] :as after-state} (palindrome/after-state n)]
     [transition/palindrome {:in is-palindrome?}
-     [:div.py-6.min-h-screen
-      [:div.p-8.max-w-sm.m-auto.text-right
+     [page/article-wrapper
+      [page/article
        [palindrome/after after-state]
        [:button.mt-8.px-4.py-2.border
         {:on-click change-n

@@ -1,6 +1,7 @@
 (ns backwords.html.pages.after
   (:require [backwords.html.util :as util]
             [backwords.html.transition :as transition]
+            [backwords.html.wrappers.page :as page]
             [backwords.html.components.palindrome :as palindrome]))
 
 (defn random-link []
@@ -13,7 +14,7 @@
 
         {:keys [is-palindrome?] :as after-state} (palindrome/after-state n)]
     [transition/palindrome {:in is-palindrome?}
-     [:div.py-6.min-h-screen
-      [:div.p-8.max-w-sm.m-auto.text-right
+     [page/article-wrapper
+      [page/article
        [palindrome/after after-state]
        [random-link]]]]))

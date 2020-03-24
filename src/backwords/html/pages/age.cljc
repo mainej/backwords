@@ -4,45 +4,44 @@
             [backwords.html.util :as util]
             [backwords.html.db :as db]
             [backwords.html.transition :as transition]
+            [backwords.html.wrappers.page :as page]
             [cljc.java-time.local-date :as local-date]
             [cljc.java-time.temporal.chrono-unit :as chrono-unit]))
 
-(defn safe-date-parse [date-str]
+(defn- safe-date-parse [date-str]
   (try
     (local-date/parse date-str)
     (catch #?(:clj Exception :cljs :default) e
       nil)))
 
-(defn age-in-units [birthday today units]
+(defn- age-in-units [birthday today units]
   (let [units (case units
                 "days"   chrono-unit/days
                 "months" chrono-unit/months
                 "years"  chrono-unit/years)]
     (chrono-unit/between units birthday today)))
 
-(defn select-units [{:keys [on-change] :as opts}]
+(defn- select-units [{:keys [on-change] :as opts}]
   [:select.form-select.bg-inherit.text-shadow-inherit.border-transparent.pl-0.pr-7.py-0.-mr-2
    (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]
    [:option {:value "years"} "years"]])
 
-(defn you-are [name]
+(defn- you-are [name]
   (if name
     (str name ", you're")
     "You're"))
 
-(defn you-will-be [name]
+(defn- you-will-be [name]
   (if name
     (str name ", you'll be")
     "You'll be"))
 
-(defn random-link []
+(defn- random-link []
   [:a.block.mt-20.focus:underline.text-sm
    {:href (util/href :route/random)}
    "Random"])
-
-(def article :article.p-8.max-w-sm.m-auto.text-right.leading-tight)
 
 (defn page [{:keys [path query]}]
   (let [{:keys [year month day units]} path
@@ -50,8 +49,8 @@
         date-str (str year "-" month "-" day)
         date     (safe-date-parse date-str)]
     (if-not date
-      [:div.py-6.min-h-screen
-       [article
+      [page/article-wrapper
+       [page/article
         [:p "Sorry, don't understand " date-str " as a date."]
         [random-link]]]
       (let [visit-units         #(util/visit [:route/age (assoc path :units %) query])
@@ -63,8 +62,8 @@
             countdown           (- palindrome-age age)
             is-palindrome?      (zero? countdown)]
         [transition/palindrome {:in is-palindrome?}
-         [:div.py-6.min-h-screen
-          [article
+         [page/article-wrapper
+          [page/article
            (if is-palindrome?
              [:div
               [:p (you-are (:name query))]
