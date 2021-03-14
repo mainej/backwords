@@ -9,7 +9,7 @@
  */
 
 @import "tailwindcss/base";
-@import "./custom-base-styles.css";
+/* @import "./custom-base-styles.css"; */
 
 /**
  * This injects any component classes registered by plugins.
