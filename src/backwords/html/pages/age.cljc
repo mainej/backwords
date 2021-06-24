@@ -11,7 +11,7 @@
 (defn- safe-date-parse [date-str]
   (try
     (local-date/parse date-str)
-    (catch #?(:clj Exception :cljs :default) e
+    (catch #?(:clj Exception :cljs :default) _e
       nil)))
 
 (defn- age-in-units [birthday today units]
@@ -22,7 +22,7 @@
     (chrono-unit/between units birthday today)))
 
 (defn- select-units [{:keys [on-change] :as opts}]
-  [:select.form-select.bg-inherit.text-shadow-inherit.border-transparent.pl-0.pr-7.py-0.-mr-2
+  [:select.border-transparent
    (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]
