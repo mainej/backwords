@@ -22,7 +22,7 @@
     (chrono-unit/between units birthday today)))
 
 (defn- select-units [{:keys [on-change] :as opts}]
-  [:select.border-transparent
+  [:select.border-transparent.bg-transparent
    (assoc opts :on-change #(on-change (.. % -target -value)))
    [:option {:value "days"} "days"]
    [:option {:value "months"} "months"]

@@ -14,7 +14,7 @@ Then
 
 ```bash
 yarn run html     # optional, only needs to be run once
-yarn run css      # optional, only needs to be run when styles change
+yarn run watch-css
 yarn run watch-js
 ```
 
@@ -35,6 +35,6 @@ Then, open http://localhost:8021
 ```bash
 yarn --prod run clean
 yarn --prod run html
-yarn --prod run css
+yarn --prod run compile-css
 yarn --prod run compile-js
 ```

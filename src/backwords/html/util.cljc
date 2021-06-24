@@ -21,7 +21,7 @@
     (->> segments
          (map (fn [s]
                 (into [:span] s)))
-         (into [:span.stack-row-1]))))
+         (into [:span.space-x-1]))))
 
 (defn palindrome-span [digi-n]
   [:a.font-bold.text-4xl
