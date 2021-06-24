@@ -2,7 +2,10 @@
  :deps    {metosin/reitit-frontend       {:mvn/version "0.5.13"}
            reagent/reagent               {:mvn/version "1.1.0"}
            cljc.java-time/cljc.java-time {:mvn/version "0.1.16"}
-           thheller/shadow-cljs          {:mvn/version "2.14.5"} }
+           ;; NOTE: Can't use 2.14.5 because Netlify uses old Clojure, which
+           ;; uses an old tools.deps, which triggers the breakage hinted at by
+           ;; https://github.com/thheller/shadow-cljs/commit/c3f738eab4aeae51d2b9ed23abfe5c35cea47275
+           thheller/shadow-cljs          {:mvn/version "2.14.4"} }
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {org.clojure/test.check {:mvn/version "RELEASE"}
                                 org.clojure/alpha.spec {:git/url "https://github.com/clojure/spec-alpha2.git"
