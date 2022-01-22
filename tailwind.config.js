@@ -1,5 +1,5 @@
 module.exports = {
-    purge: {
+    content: {
         extract: {
             // default: /[^<>"'`\s.(){}[\]#=%]*[^<>"'`\s.(){}[\]#=%:]/g
             // In CLJS classes are either
@@ -9,18 +9,13 @@ module.exports = {
             // The default fails to remove the leading colon from the keyword style
             DEFAULT: content => content.match(/[^<>"'`\s.(){}[\]#=%:][^<>"'`\s.(){}[\]#=%]*[^<>"'`\s.(){}[\]#=%:]/g) || []
         },
-        content: [
+        files: [
             './assets/index.html',
             './src/**/*.cljs',
             './src/**/*.cljc',
         ]
     },
-    darkMode: false, // or 'media' or 'class'
-    mode: 'jit',
     theme: {
-        extend: {},
-    },
-    variants: {
         extend: {},
     },
     plugins: [],
