@@ -14,7 +14,7 @@ java -version
 
 npx update-browserslist-db@latest
 
-yarn --prod run clean
-yarn --prod run html
-yarn --prod run compile-css
-yarn --prod run compile-js
+npm --prod run clean
+npm --prod run html
+npm --prod run compile-css
+npm --prod run compile-js

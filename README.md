@@ -7,15 +7,15 @@ Tools for finding palindromic numbers and a static web site for viewing them.
 First, load dependencies into build server:
 
 ```bash
-yarn run js-server
+npm run js-server
 ```
 
 Then
 
 ```bash
-yarn run html     # optional, only needs to be run once
-yarn run watch-css
-yarn run watch-js
+npm run html     # optional, only needs to be run once
+npm run watch-css
+npm run watch-js
 ```
 
 Then, open http://localhost:8081
@@ -25,7 +25,7 @@ Then, open http://localhost:8081
 Run test server:
 
 ```bash
-yarn run test-js
+npm run test-js
 ```
 
 Then, open http://localhost:8021
@@ -33,8 +33,8 @@ Then, open http://localhost:8021
 ## Deploy
 
 ```bash
-yarn --prod run clean
-yarn --prod run html
-yarn --prod run compile-css
-yarn --prod run compile-js
+npm --prod run clean
+npm --prod run html
+npm --prod run compile-css
+npm --prod run compile-js
 ```
