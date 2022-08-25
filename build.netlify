@@ -12,6 +12,8 @@ export PATH=$PWD/jdk-11.0.16.1+1/bin:$PATH
 
 java -version
 
+npx update-browserslist-db@latest
+
 yarn --prod run clean
 yarn --prod run html
 yarn --prod run compile-css
