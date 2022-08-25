@@ -14,7 +14,7 @@ java -version
 
 npx update-browserslist-db@latest
 
-npm --prod run clean
-npm --prod run html
-npm --prod run compile-css
-npm --prod run compile-js
+npm --omit=dev run clean
+npm --omit=dev run html
+npm --omit=dev run compile-css
+npm --omit=dev run compile-js
