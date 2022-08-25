@@ -1,5 +1,5 @@
 [build]
-  command = "./build_netlify"
+  command = "./build.netlify"
 
 [[redirects]]
   from = "/*"
