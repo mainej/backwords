@@ -1,0 +1,7 @@
+[build]
+  command = apt-get install temurin-11-jdk && yarn --prod run clean && yarn --prod run html && yarn --prod run compile-css && yarn --prod run compile-js
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

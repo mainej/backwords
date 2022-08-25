@@ -7,7 +7,7 @@
     "license": "MIT",
     "scripts": {
         "clean": "rm -rf target && mkdir target",
-        "html": "cp assets/index.html target/ && cp assets/netlify_redirects target/_redirects",
+        "html": "cp assets/index.html target/",
         "watch-css": "npx tailwindcss -i assets/css/styles.css -o target/styles.css -w",
         "js-server": "shadow-cljs -A:test server",
         "watch-js": "shadow-cljs watch app",
