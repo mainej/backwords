@@ -9,7 +9,7 @@
   #?(:clj (Math/pow n e)
      :cljs (js/Math.pow n e)))
 
-(defn- small-rand []
+(defn small-rand []
   (+ 10 (rand-int (expt 10 (inc (rand-int 7))))))
 
 (defn page [n]

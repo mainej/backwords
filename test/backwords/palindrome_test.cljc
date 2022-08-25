@@ -13,6 +13,7 @@
       digi-n
       (recur (diginum/roll digi-n)))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (tc/defspec is-next
   1000
   (prop/for-all

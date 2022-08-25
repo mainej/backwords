@@ -7,12 +7,14 @@
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop #?@(:cljs [:include-macros true])]))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (tc/defspec conversion-is-invertible
   100
   (prop/for-all
    [n gen/nat]
    (= n (sut/to-int (sut/from-int n)))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (tc/defspec generation-preserves
   100
   (prop/for-all
@@ -20,6 +22,7 @@
    (= (str n)
       (string/join "" (reverse (sut/from-int n))))))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (tc/defspec rolling
   1000
   (prop/for-all

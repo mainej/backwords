@@ -19,6 +19,7 @@
 (defonce !now (r/atom (local-date-time/now)))
 (defn now [] @!now)
 #?(:cljs
+   #_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
    (defonce time-updater (js/setInterval #(reset! !now (local-date-time/now)) 1000)))
 
 (def !today (ra/reaction (local-date-time/to-local-date (now))))
